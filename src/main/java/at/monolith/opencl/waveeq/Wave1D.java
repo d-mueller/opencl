@@ -99,6 +99,13 @@ public class Wave1D {
 		timer.lap("CPU");
 
 		System.out.println("Done!");
+
+		// Check results.
+		double diff1 = compare(u0, v0);
+		double diff2 = compare(u1, v1);
+		double diff = Math.max(diff1, diff2);
+
+		System.out.println("Largest difference: " + diff);
 	}
 
 	/**
@@ -146,7 +153,7 @@ public class Wave1D {
 	 * Loads a program from an external file and initializes the kernel.
 	 *
 	 * @param filename      file name of the kernel source
-	 * @param programName   name of the kernel
+	 * @param programName   name of the kernel in the source file
 	 */
 	private static cl_kernel loadProgram(String filename, String programName) {
 		// Load program from external file.
@@ -237,5 +244,23 @@ public class Wave1D {
 			System.exit(1);
 			return null;
 		}
+	}
+
+	/**
+	 * Compares two double arrays and returns largest difference.
+	 * @param a first array
+	 * @param b second array
+	 * @return  largest difference of any element
+	 */
+	private static double compare(double[] a, double[] b) {
+		int n = a.length;
+		double maxDiff = 0.0;
+		for (int i = 0; i < n; i++) {
+			double diff = Math.abs(a[i] - b[i]);
+			if(maxDiff < diff) {
+				maxDiff = diff;
+			}
+		}
+		return maxDiff;
 	}
 }
